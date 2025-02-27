@@ -1,0 +1,4 @@
+imports:
+    - { resource: '../nelmio/base.yaml' }
+    - { resource: '../nelmio/schemas.yaml' }
+    - { resource: '../nelmio/routes.yaml' }

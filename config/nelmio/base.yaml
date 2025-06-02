@@ -1,0 +1,11 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: musiknet API Documentation
+            description: This is the API documentation for the musiknet API
+            version: 1.0.0
+    areas:
+      path_patterns:
+          - ^/(?!(_error|_profiler|_wdt|doc$)) # Excludes _error, _profiler, _wdt and doc routes
+          - ^/api(?!/_error|/_profiler|/_wdt)
+          - ^/auth(?!/_error|/_profiler|/_wdt)

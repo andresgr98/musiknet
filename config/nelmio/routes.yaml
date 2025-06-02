@@ -1,0 +1,400 @@
+nelmio_api_doc:
+    documentation:
+        paths:
+            /auth/register:
+                post:
+                    tags:
+                        - Authentication
+                    summary: Register a new user by email
+                    description: Creates a new user account using the provided email and additional details.
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: "#/components/schemas/RegisterRequest"
+            /auth/login:
+                post:
+                    tags:
+                        - Authentication
+                    summary: Login user with email
+                    description: Authenticates a user and returns a JWT token
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: "#/components/schemas/LoginRequest"
+                    responses:
+                        200:
+                            description: Returns JWT token
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/LoginResponse"
+            /auth/refresh:
+                post:
+                    tags:
+                        - Authentication
+                    summary: Refresh access token
+                    description: Get new access token using refresh token
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: "#/components/schemas/RefreshTokenRequest"
+                    responses:
+                        200:
+                            description: Returns new access token
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/RefreshTokenResponse"
+            /genres:
+                get:
+                    tags:
+                        - Genres
+                    summary: Get all genres
+                    description: Returns a list of all available music genres in the system
+                    responses:
+                        200:
+                            description: List of genres
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetAllGenresResponse"
+            /languages:
+                get:
+                    tags:
+                        - Languages
+                    summary: Get all languages
+                    description: Returns a list of all available languages in the system
+                    responses:
+                        200:
+                            description: List of languages
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetAllLanguagesResponse"
+            /posts:
+                get:
+                    tags:
+                        - Posts
+                    summary: Get the feed for the current user
+                    description: Returns a list of posts for the authenticated user's feed
+                    parameters:
+                        - name: limit
+                          in: query
+                          required: false
+                          schema:
+                              type: integer
+                        - name: page
+                          in: query
+                          required: false
+                          schema:
+                              type: integer
+                    security:
+                        - Bearer: []
+                    responses:
+                        200:
+                            description: List of posts
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetPostsResponse"
+                post:
+                    tags:
+                        - Posts
+                    summary: Create a new post
+                    description: Creates a new post for the authenticated user
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            multipart/form-data:
+                                schema:
+                                    $ref: '#/components/schemas/CreatePostRequest'  
+                    responses:
+                        201:
+                            description: Post created successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/CreatePostResponse"
+            /posts/user/{userId}:
+                get:
+                    tags:
+                        - Posts
+                    summary: Get posts for specific user
+                    description: Returns a list of posts for a specific user
+                    security:
+                        - Bearer: []
+                    parameters:
+                        - name: userId
+                          in: path
+                          required: true
+                          schema:
+                              type: integer
+                    responses:
+                        200:
+                            description: List of posts
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetUserPostsResponse"
+            /posts/{postId}:
+                delete:
+                    tags:
+                        - Posts
+                    summary: Delete post by ID
+                    description: Delete post by its ID
+                    security:
+                        - Bearer: []
+                    parameters:
+                        - name: postId
+                          in: path
+                          required: true
+                          schema:
+                              type: integer
+                    responses:
+                        204:
+                            description: Post deleted
+                        404:
+                            description: Post not found
+                        403:
+                            description: Forbidden (post does not belong to logged in user)
+            /users/me:
+                get:
+                    tags:
+                        - Users
+                    summary: Get the current authenticated user
+                    description: Retrieve the current user's profile information
+                    security:
+                        - Bearer: []
+                    responses:
+                        200:
+                            description: Current user profile
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetCurrentUserResponse"
+
+            /users/edit:
+                put:
+                    tags:
+                        - Users
+                    summary: Edit user profile
+                    description: Update the details of the currently authenticated user
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: "#/components/schemas/EditUserRequest"
+                    responses:
+                        200:
+                            description: User updated successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "User updated successfully"
+
+            /users/picture:
+                post:
+                    tags:
+                        - Users
+                    summary: Upload or update the user profile picture
+                    description: Upload or update the profile picture for the currently authenticated user
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            multipart/form-data:
+                                schema:
+                                    $ref: "#/components/schemas/UpdateUserPictureRequest"
+                    responses:
+                        200:
+                            description: Profile picture uploaded successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "Profile picture updated successfully"
+
+            /users/swiper:
+                get:
+                    tags:
+                        - Users
+                    summary: Get users for swiper
+                    description: Retrieve a list of users to be shown in a swiper component
+                    security:
+                        - Bearer: []
+                    responses:
+                        200:
+                            description: List of users for the swiper
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetUserSwiperResponse"
+
+            /users/{id}:
+                get:
+                    tags:
+                        - Users
+                    summary: Get user by ID
+                    description: Retrieve the details of a specific user by their ID
+                    security:
+                        - Bearer: []
+                    parameters:
+                        - name: id
+                          in: path
+                          required: true
+                          description: The ID of the user to retrieve
+                          schema:
+                              type: integer
+                    responses:
+                        200:
+                            description: User details
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetUserResponse"
+            /roles:
+                get:
+                    tags:
+                        - Roles
+                    summary: Get all roles
+                    description: Returns a list of all available roles in the system
+                    responses:
+                        200:
+                            description: List of roles
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/GetRolesResponse"
+            /swipe:
+                post:
+                    tags:
+                        - Swipes
+                    summary: Swipe a user
+                    description: Create a swipe action (like/dislike) on another user
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: "#/components/schemas/SwipeUserRequest"
+                    responses:
+                        201:
+                            description: Swipe registered successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: "#/components/schemas/SwipeUserResponse"
+            /tracks/{uuid}:
+                get:
+                    tags:
+                        - Tracks
+                    summary: Download track audio file
+                    description: Returns the audio file for a specific track
+                    parameters:
+                        - name: uuid
+                          in: path
+                          required: true
+                          description: The UUID of the track to download
+                          schema:
+                              type: string
+                              format: uuid
+                    responses:
+                        200:
+                            description: Audio file
+                            content:
+                                audio/mpeg:
+                                    schema:
+                                        type: string
+                                        format: binary
+                        404:
+                            description: Track not found
+                        403:
+                            description: Access denied
+            
+                post:
+                    tags:
+                        - Tracks
+                    summary: Replace profile track
+                    description: Replaces a current profile track with a new one
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            multipart/form-data:
+                                schema:
+                                    $ref: "#/components/schemas/ReplaceTrackRequest"
+                    parameters:
+                        - name: uuid
+                          in: path
+                          required: true
+                          description: The UUID of the track to replace
+                          schema:
+                              type: string
+                              format: uuid
+                    responses:
+                        200:
+                            description: Track replaced successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "OK"
+                        404:
+                            description: Track not found
+                        400:
+                            description: No file provided
+
+            /tracks:
+                post:
+                    tags:
+                        - Tracks
+                    summary: Upload a new track
+                    description: Uploads a new track audio file and creates a track entry
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        required: true
+                        content:
+                            multipart/form-data:
+                                schema:
+                                    $ref: "#/components/schemas/UploadTrackRequest"
+                    responses:
+                        201:
+                            description: Track uploaded successfully
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            message:
+                                                type: string
+                                                example: "OK"
+                        400:
+                            description: No file provided or empty trackTypeId
+                        415:
+                            description: Invalid file type

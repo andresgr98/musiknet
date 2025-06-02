@@ -1,0 +1,660 @@
+nelmio_api_doc:
+    documentation:
+        components:
+            securitySchemes:
+                    Bearer:
+                        type: http
+                        scheme: bearer
+                        bearerFormat: JWT
+            schemas:
+                RegisterRequest:
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                            format: email
+                            example: example@mail.com
+                        password:
+                            type: string
+                            format: password
+                            example: "12345"
+                        firstName:
+                            type: string
+                            example: Example
+                        lastName:
+                            type: string
+                            example: Examplez
+                        artistName:
+                            type: string
+                            example: exampleRapper
+                        phone:
+                            type: integer
+                            example: 666666666
+                        location:
+                            type: string
+                            example: Example Location
+                        genderId:
+                            type: integer
+                            example: 1
+                        profilePictureUrl:
+                            type: string
+                            format: uri
+                            example: "https://static.wikia.nocookie.net/ivansitorechulonlosdibujosmolanmogollon/images/9/9d/Mesichiquito.jpg/revision/latest?cb=20200922212709&path-prefix=es"
+                        userGenres:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                        userRoles:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                        userLanguages:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                        trackUrl1:
+                            type: string
+                            format: uri
+                            example: "https://example.com/media.mp3"
+                        trackUrl2:
+                            type: string
+                            format: uri
+                            example: "https://example.com/media.mp3"
+                        trackUrl3:
+                            type: string
+                            format: uri
+                            example: "https://example.com/media.mp3"
+                LoginRequest:
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                            format: email
+                            example: "antonio.garcia@example.com"
+                        password:
+                            type: string
+                            format: password
+                            example: "12345"
+                LoginResponse:
+                    type: object
+                    properties:
+                        accessToken:
+                            type: string
+                            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        refreshToken:
+                            type: string
+                            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                RefreshTokenRequest:
+                    type: object
+                    properties:
+                        refreshToken:
+                            type: string
+                            example: "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4="
+                RefreshTokenResponse:
+                    type: object
+                    properties:
+                        accessToken:
+                            type: string
+                            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                GetAllGenresResponse:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: integer
+                                example: 1
+                            name:
+                                type: string
+                                example: "Rock"
+                            description:
+                                type: string
+                                example: "Genre characterized by use of electric guitars, bass, and drums"
+                GetAllLanguagesResponse:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: integer
+                                example: 1
+                            name:
+                                type: string
+                                example: "English"
+                            isoCode:
+                                type: string
+                                example: "en"
+                GetPostsResponse:
+                    type: object
+                    properties:
+                        data:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 15
+                                    content:
+                                        type: string
+                                        example: "Example post"
+                                    track:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            uuid:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+                                            type:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    name:
+                                                        type: string
+                                    user:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                                example: 1
+                                            artistName:
+                                                type: string
+                                                example: "ArtistName"
+                                            firstName:
+                                                type: string
+                                                example: "FirstName"
+                                            lastName:
+                                                type: string
+                                                example: "LastName"
+                                            profilePictureUrl:
+                                                type: string
+                                                example: "https://randomuser.me/api/portraits/men/1.jpg"
+                                    createdAt:
+                                        type: string
+                                        format: date-time
+                                        example: "2025-01-30T11:07:53+00:00"
+                        totalRecords:
+                            type: integer
+                            example: 10
+                        page:
+                            type: integer
+                            example: 1
+                        limit:
+                            type: integer
+                            example: 2
+                        totalPages:
+                            type: integer
+                            example: 5
+                CreatePostRequest:
+                    type: object
+                    properties:
+                        content:
+                            type: string
+                            example: "This is my new post"
+                        file:
+                            type: string
+                            format: binary
+
+                CreatePostResponse:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
+                        content:
+                            type: string
+                        track:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                                createdAt:
+                                    type: string
+                                    format: date-time
+                                trackUrl:
+                                    type: string
+                        createdAt:
+                            type: string
+                            format: date-time
+                        user:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                                artistName:
+                                    type: string
+                                firstName:
+                                    type: string
+                                lastName:
+                                    type: string
+                                profilePictureUrl:
+                                    type: string
+
+                GetUserPostsResponse:
+                    type: object
+                    properties:
+                        data:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    content:
+                                        type: string
+                                    track:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            uuid:
+                                                type: string
+                                            createdAt:
+                                                type: string
+                                                format: date-time
+                                            type:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    name:
+                                                        type: string
+                                    user:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            artistName:
+                                                type: string
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            profilePictureUrl:
+                                                type: string
+                                    createdAt:
+                                        type: string
+                                        format: date-time
+                        totalRecords:
+                            type: integer
+                        page:
+                            type: integer
+                        limit:
+                            type: integer
+                        totalPages:
+                            type: integer
+
+                GetCurrentUserResponse:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
+                        artistName:
+                            type: string
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        email:
+                            type: string
+                        googleId:
+                            type: string
+                        phone:
+                            type: integer
+                        location:
+                            type: string
+                        profilePictureUrl:
+                            type: string
+                        createdAt:
+                            type: string
+                            format: date-time
+                        updatedAt:
+                            type: string
+                            format: date-time
+                        userGender:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                                name:
+                                    type: string
+                        userLanguages:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    isoCode:
+                                        type: string
+                        userRoles:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                        userSearchRoles:
+                            type: array
+                            items:
+                                type: object
+                        userGenres:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                        userIdentifier:
+                            type: string
+                        tracks:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    uuid:
+                                        type: string
+                                    createdAt:
+                                        type: string
+                                        format: date-time
+                                    type:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            name:
+                                                type: string
+
+                EditUserRequest:
+                    type: object
+                    properties:
+                        artistName:
+                            type: string
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        phone:
+                            type: string
+                        location:
+                            type: string
+                        profilePictureUrl:
+                            type: string
+                        userGenres:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                        userRoles:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                        userLanguages:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+
+                UpdateUserPictureRequest:
+                    type: object
+                    properties:
+                        file:
+                            type: string
+                            format: binary
+                
+                GetUserSwiperResponse:
+                    type: object
+                    properties:
+                        data:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                user:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                        artistName:
+                                            type: string
+                                        firstName:
+                                            type: string
+                                        lastName:
+                                            type: string
+                                        email:
+                                            type: string
+                                        profilePictureUrl:
+                                            type: string
+                                        gender:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                name:
+                                                    type: string
+                                        userGenres:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    name:
+                                                        type: string
+                                                    description:
+                                                        type: string
+                                        userLanguages:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    name:
+                                                        type: string
+                                                    isoCode:
+                                                        type: string
+                                        userRoles:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    name:
+                                                        type: string
+                                                    description:
+                                                        type: string
+                                        searchRoles:
+                                            type: array
+                                            items:
+                                                type: string
+                                        tracks:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                    uuid:
+                                                        type: string
+                                                    createdAt:
+                                                        type: string
+                                                        format: date-time
+                                                    type:
+                                                        type: object
+                                                        properties:
+                                                            id:
+                                                                type: integer
+                                                            name:
+                                                                type: string
+                                                    
+                                    liked:
+                                        type: boolean
+                                        nullable: true
+                        totalRecords:
+                            type: integer
+                        page:
+                            type: integer
+                        limit:
+                            type: integer
+                        totalPages:
+                            type: integer
+
+                GetUserResponse:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
+                        artistName:
+                            type: string
+                        firstName:
+                            type: string
+                        lastName:
+                            type: string
+                        email:
+                            type: string
+                        profilePictureUrl:
+                            type: string
+                        gender:
+                            type: object
+                            properties:
+                                id:
+                                    type: integer
+                                name:
+                                    type: string
+                        userGenres:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                        userLanguages:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    isoCode:
+                                        type: string
+                        userRoles:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    name:
+                                        type: string
+                                    description:
+                                        type: string
+                        searchRoles:
+                            type: array
+                            items:
+                                type: string
+                        tracks:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                    uuid:
+                                        type: string
+                                    createdAt:
+                                        type: string
+                                        format: date-time
+                                    type:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            name:
+                                                type: string
+                GetRolesResponse:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            id:
+                                type: integer
+                                example: 1
+                            name:
+                                type: string
+                                example: "Singer"
+                            description:
+                                type: string
+                                example: "Vocal performer who uses their voice to interpret and perform musical pieces"
+                SwipeUserRequest:
+                    type: object
+                    properties:
+                        swipedUserId:
+                            type: integer
+                            example: 1
+                        liked:
+                            type: boolean
+                            example: true
+
+                SwipeUserResponse:
+                    type: array
+                    items:
+                        type: string
+                        example: "OK"
+                
+                UploadTrackRequest:
+                    type: object
+                    properties:
+                        file:
+                            type: string
+                            format: binary
+                        trackTypeId:
+                            type: integer
+                            example: 1
+                ReplaceTrackRequest:
+                    type: object
+                    properties:
+                        file:
+                            type: string
+                            format: binary

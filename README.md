@@ -11,6 +11,12 @@ Each user provides a list of music genres they are interested in working on when
 
 My role in this project was to create the **REST API service** that executes any operation performed in the app.
 
+## Installation and launch
+1. Clone the project and go to the root folder.
+2. Copy the contents of .env.example into a .env file, and setup the variables according to your environment.
+3. Launch the project: docker-compose up --build
+4. To access the Swagger page, go to localhost:9000/docs.
+
 ---
 
 ## Tech Stack
